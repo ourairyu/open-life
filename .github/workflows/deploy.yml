@@ -33,10 +33,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 14.15.3
-      - run: cd site-src && npm i && npm run copy && npm run deploy ../site/dist && cd .. && ls -al site-dist
+      - run: |
+          cd site-src
+          npm i
+          npm run copy
+          npm run deploy ../site/dist
+          cd ..
       - name: Commit changes
         run: |
           cd site-dist
+          ls -al
           git config --local user.email "ourairyu@gmail.com"
           git config --local user.name "Ourai L."
           git add .
