@@ -111,6 +111,9 @@ theme_config:
     period:
       start: 2023
   header:
+    navs:
+      - text: 主站
+        url: https://ourai.ws/
     navbar:
       placement: right
   footer:

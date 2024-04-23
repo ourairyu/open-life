@@ -4,7 +4,7 @@ const { existsSync } = require('fs');
 const { resolveRootPath, ensureDirExists, copyFileDeeply, resolveSiteSrcDir } = require('../helper');
 
 module.exports = {
-  execute: (siteAlias = 'ourairyu') => {
+  execute: (siteAlias = 'default') => {
     const rootPath = resolveRootPath();
     const themeSrcPath = `${rootPath}/node_modules/hexo-theme-lime`;
 
