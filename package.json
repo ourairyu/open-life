@@ -26,6 +26,6 @@
     "clean": "rm -rf .asset-cache .cache .knosys/sites/*/.asset-cache .knosys/sites/*/.cache",
     "start": "node .knosys/scripts serve",
     "predeploy": "npm run clean",
-    "deploy": "node .knosys/scripts site deploy"
+    "deploy": "node .knosys/scripts deploy"
   }
 }
