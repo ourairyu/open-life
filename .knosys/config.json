@@ -1,0 +1,14 @@
+{
+  "command": "./.knosys/scripts/command",
+  "site": {
+    "default": {
+      "alias": "ourairyu-life",
+      "cname": "o.ourai.ws",
+      "generator": "hexo",
+      "git": {
+        "url": "https://github.com/ourairyu/open-life.git",
+        "branch": "gh-pages"
+      }
+    }
+  }
+}

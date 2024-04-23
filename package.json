@@ -1,0 +1,31 @@
+{
+  "name": "@ourairyu/open-life",
+  "version": "0.0.0",
+  "description": "Make My Life Open, Work & Build in Public.",
+  "main": "index.js",
+  "private": true,
+  "hexo": {
+    "version": "6.3.0"
+  },
+  "dependencies": {
+    "hexo": "^6.3.0",
+    "hexo-front-matter-defaults": "0.0.0",
+    "hexo-renderer-coffeescript": "^0.2.0",
+    "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-marked": "^6.0.0",
+    "hexo-renderer-sass": "^0.4.0",
+    "hexo-server": "^3.0.0"
+  },
+  "devDependencies": {
+    "hexo-theme-lime": "0.0.0-alpha.3",
+    "ksio": "0.0.3"
+  },
+  "scripts": {
+    "copy": "node .knosys/scripts copy",
+    "build": "node .knosys/scripts gen",
+    "clean": "rm -rf .asset-cache .cache .knosys/sites/*/.asset-cache .knosys/sites/*/.cache",
+    "start": "node .knosys/scripts serve",
+    "predeploy": "npm run clean",
+    "deploy": "node .knosys/scripts site deploy"
+  }
+}
