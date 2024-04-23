@@ -1,0 +1,42 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .knosys/sites/**
+  workflow_dispatch:
+
+jobs:
+  deploy-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create temp dirs
+        run: mkdir site-src site-dist
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+          path: site-src
+      - uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          persist-credentials: false
+          path: site-dist
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14.15.3
+      - run: cd site-src && npm i && npm run copy && npm run deploy ../site/dist && cd ..
+      - name: Commit changes
+        run: |
+          cd site-dist
+          git config --local user.email "ourairyu@gmail.com"
+          git config --local user.name "Ourai L."
+          git add .
+          git commit -m "chore: deploy site via GitHub Actions"
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          directory: site-dist
+          force: true
