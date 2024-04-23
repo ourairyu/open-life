@@ -23,12 +23,6 @@ jobs:
           ref: gh-pages
           persist-credentials: false
           path: site-dist
-      - name: Check files
-        run: |
-          echo "files in `site-src`"
-          ls -al site-src
-          echo "files in `site-dist`"
-          ls -al site-dist
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -37,12 +31,11 @@ jobs:
           cd site-src
           npm i
           npm run copy
-          npm run deploy ../site/dist
+          npm run deploy ../site-dist
           cd ..
       - name: Commit changes
         run: |
           cd site-dist
-          ls -al
           git config --local user.email "ourairyu@gmail.com"
           git config --local user.name "Ourai L."
           git add .
