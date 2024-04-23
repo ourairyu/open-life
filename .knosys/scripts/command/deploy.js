@@ -10,7 +10,7 @@ module.exports = {
       const distPath = resolvePath(resolveRootPath(), distDir);
 
       if (existsSync(distPath)) {
-        copySitePkgInfo(site);
+        copySitePkgInfo('default');
         generateHexoSite(resolveSiteSrcDir(), distPath);
       } else {
         console.log(`[ERROR] 路径 \`${distPath}\` 不存在`);
