@@ -23,11 +23,17 @@ jobs:
           ref: gh-pages
           persist-credentials: false
           path: site-dist
+      - name: Check files
+        run: |
+          echo "files in `site-src`"
+          ls -al site-src
+          echo "files in `site-dist`"
+          ls -al site-dist
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 14.15.3
-      - run: cd site-src && npm i && npm run copy && npm run deploy ../site/dist && cd ..
+      - run: cd site-src && npm i && npm run copy && npm run deploy ../site/dist && cd .. && ls -al site-dist
       - name: Commit changes
         run: |
           cd site-dist
