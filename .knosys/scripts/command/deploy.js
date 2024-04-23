@@ -2,12 +2,12 @@ const { resolve: resolvePath } = require('path');
 const { existsSync } = require('fs');
 const { generateHexoSite } = require('@knosys/sdk/src/site/generators/hexo');
 
-const { resolveSiteSrcDir, execute } = require('../helper');
+const { resolveRootPath, resolveSiteSrcDir, execute } = require('../helper');
 
 module.exports = {
   execute: distDir => {
     if (distDir) {
-      const distPath = resolvePath(resolveSiteSrcDir(), distDir);
+      const distPath = resolvePath(resolveRootPath(), distDir);
 
       if (existsSync(distPath)) {
         generateHexoSite(resolveSiteSrcDir(), distPath);
