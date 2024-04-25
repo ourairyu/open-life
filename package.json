@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "hexo-theme-lime": "0.0.0-alpha.3",
+    "ics": "^3.7.2",
     "ksio": "0.0.3"
   },
   "scripts": {
@@ -25,6 +26,7 @@
     "build": "node .knosys/scripts gen",
     "clean": "rm -rf .asset-cache .cache .knosys/sites/*/.asset-cache .knosys/sites/*/.cache",
     "start": "node .knosys/scripts serve",
+    "ics": "node .knosys/scripts cal",
     "predeploy": "npm run clean",
     "deploy": "node .knosys/scripts deploy"
   }

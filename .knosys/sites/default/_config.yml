@@ -102,7 +102,7 @@ theme_config:
     parent:
       text: Ourai.WS
       url: https://ourai.ws/
-    text: 开放
+    text: 生活
     color: "#0871ab"
   copyright:
     owner:
