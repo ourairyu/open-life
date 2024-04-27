@@ -15,6 +15,10 @@ function ensureTimezone(raw) {
   return dayjs(raw).subtract(8, 'h').valueOf();
 }
 
+function ensureDayStart(raw) {
+  return ensureTimezone(dayjs(raw).startOf('day').valueOf());
+}
+
 function ensureDayEnd(raw) {
   return ensureTimezone(dayjs(raw).endOf('day').valueOf());
 }
@@ -33,7 +37,7 @@ function generateCalendar(data) {
         productId: 'o.ourai.ws',
         title: record.任务名称,
         description: record.任务描述 || '',
-        start: ensureTimezone(record.开始时间),
+        start: ensureDayStart(record.开始时间),
         startInputType: 'utc',
         end: ensureDayEnd(record.结束时间 || record.开始时间),
         endInputType: 'utc',
