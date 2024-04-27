@@ -39,8 +39,10 @@ function generateCalendar(data) {
         description: record.任务描述 || '',
         start: ensureDayStart(record.开始时间),
         startInputType: 'utc',
+        startOutputType: 'utc',
         end: ensureDayEnd(record.结束时间 || record.开始时间),
         endInputType: 'utc',
+        endOutputType: 'utc',
         status: record.任务状态 === '进行中' ? 'CONFIRMED' : 'TENTATIVE'
       });
     });
