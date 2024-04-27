@@ -1,8 +1,23 @@
 const { resolve: resolvePath } = require('path');
 const { existsSync } = require('fs');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
 const ics = require('ics');
 
 const { resolveRootPath, readData, saveData } = require('../helper');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Shanghai');
+
+function ensureTimezone(raw) {
+  return dayjs(raw).valueOf();
+}
+
+function ensureDayEnd(raw) {
+  return dayjs(raw).endOf('day').valueOf();
+}
 
 function generateCalendar(data) {
   const descriptors = [];
@@ -18,9 +33,9 @@ function generateCalendar(data) {
         productId: 'o.ourai.ws',
         title: record.任务名称,
         description: record.任务描述 || '',
-        start: record.开始时间,
+        start: ensureTimezone(record.开始时间),
         startInputType: 'utc',
-        end: record.结束时间 || record.开始时间,
+        end: ensureDayEnd(record.结束时间 || record.开始时间),
         endInputType: 'utc',
         status: record.任务状态 === '进行中' ? 'CONFIRMED' : 'TENTATIVE'
       });

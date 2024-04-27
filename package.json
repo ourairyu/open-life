@@ -17,6 +17,7 @@
     "hexo-server": "^3.0.0"
   },
   "devDependencies": {
+    "dayjs": "^1.11.10",
     "hexo-theme-lime": "0.0.0-alpha.3",
     "ics": "^3.7.2",
     "ksio": "0.0.3"
