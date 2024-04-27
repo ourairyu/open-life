@@ -12,11 +12,11 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Shanghai');
 
 function ensureTimezone(raw) {
-  return dayjs(raw).valueOf();
+  return dayjs(raw).subtract(8, 'h').valueOf();
 }
 
 function ensureDayEnd(raw) {
-  return dayjs(raw).endOf('day').valueOf();
+  return ensureTimezone(dayjs(raw).endOf('day').valueOf());
 }
 
 function generateCalendar(data) {
