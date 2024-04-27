@@ -12,7 +12,7 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Shanghai');
 
 function ensureTimezone(raw) {
-  return dayjs(raw).subtract(8, 'h').valueOf();
+  return dayjs(raw).subtract(8, 'h').add(1, 'd').valueOf();
 }
 
 function ensureDayStart(raw) {
