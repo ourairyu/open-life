@@ -15,12 +15,8 @@ function ensureTimezone(raw) {
   return dayjs(raw).subtract(8, 'h').add(1, 'd').valueOf();
 }
 
-function ensureDayStart(raw) {
-  return ensureTimezone(dayjs(raw).startOf('day').valueOf());
-}
-
-function ensureDayEnd(raw) {
-  return ensureTimezone(dayjs(raw).endOf('day').valueOf());
+function isZeroTime(timeObj) {
+  return timeObj.hour() === 0 && timeObj.minute() === 0 && timeObj.second() === 0
 }
 
 function generateCalendar(data) {
@@ -28,8 +24,27 @@ function generateCalendar(data) {
 
   data.forEach(table => {
     table.records.forEach(record => {
-      if (!record.任务名称 || !record.开始时间 || !['未开始', '进行中'].includes(record.任务状态)) {
+      let startTime = record.开始时间;
+      let endTime = record.结束时间 || startTime;
+
+      if (!record.任务名称 || !startTime || !['未开始', '进行中'].includes(record.任务状态)) {
         return;
+      }
+
+      const startTimeObj = dayjs(startTime);
+      const endTimeObj = dayjs(endTime);
+
+      if (endTimeObj.isSame(startTimeObj) && isZeroTime(startTimeObj)) {
+        startTime = startTimeObj.startOf('day').valueOf();
+        endTime = endTimeObj.endOf('day').valueOf();
+      } else {
+        startTime = startTimeObj.valueOf();
+
+        if (isZeroTime(endTimeObj)) {
+          endTime = endTimeObj.subtract(1, 'day').endOf('day').valueOf();
+        } else {
+          endTime = endTimeObj.valueOf();
+        }
       }
 
       descriptors.push({
@@ -37,10 +52,10 @@ function generateCalendar(data) {
         productId: 'o.ourai.ws',
         title: record.任务名称,
         description: record.任务描述 || '',
-        start: ensureDayStart(record.开始时间),
+        start: ensureTimezone(startTime),
         startInputType: 'utc',
         startOutputType: 'utc',
-        end: ensureDayEnd(record.结束时间 || record.开始时间),
+        end: ensureTimezone(endTime),
         endInputType: 'utc',
         endOutputType: 'utc',
         status: record.任务状态 === '进行中' ? 'CONFIRMED' : 'TENTATIVE'
