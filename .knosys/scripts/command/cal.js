@@ -11,10 +11,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Shanghai');
 
-function ensureTimezone(raw) {
-  return dayjs(raw).subtract(8, 'h').add(1, 'd').valueOf();
-}
-
 function isZeroTime(timeObj) {
   return timeObj.hour() === 0 && timeObj.minute() === 0 && timeObj.second() === 0
 }
@@ -52,10 +48,10 @@ function generateCalendar(data) {
         productId: 'o.ourai.ws',
         title: record.任务名称,
         description: record.任务描述 || '',
-        start: ensureTimezone(startTime),
+        start: startTime,
         startInputType: 'utc',
         startOutputType: 'utc',
-        end: ensureTimezone(endTime),
+        end: endTime,
         endInputType: 'utc',
         endOutputType: 'utc',
         status: record.任务状态 === '进行中' ? 'CONFIRMED' : 'TENTATIVE'
