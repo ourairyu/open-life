@@ -69,7 +69,11 @@ function generateCalendar(data) {
 }
 
 module.exports = {
-  execute: dataSource => {
+  execute: (dataSource = process.env.KNOSYS_ICS_DATASOURCE) => {
+    if (!dataSource) {
+      return;
+    }
+
     const srcPath = resolvePath(resolveRootPath(), dataSource);
 
     if (!existsSync(srcPath)) {

@@ -4,6 +4,11 @@ sh.exe.stackdump
 *.log
 
 node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+.env.local
 
 # Hexo sites
 /.knosys/sites/*/source/_data/knosys/
