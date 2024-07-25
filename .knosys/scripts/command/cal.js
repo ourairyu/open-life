@@ -43,7 +43,7 @@ function generateCalendar(data) {
         }
       }
 
-      descriptors.push({
+      const descriptor = {
         calName: '欧雷的开放生活',
         productId: 'o.ourai.ws',
         title: record.任务名称,
@@ -55,7 +55,13 @@ function generateCalendar(data) {
         endInputType: 'utc',
         endOutputType: 'utc',
         status: record.任务状态 === '进行中' ? 'CONFIRMED' : 'TENTATIVE'
-      });
+      };
+
+      if (record.任务地点) {
+        descriptor.location = record.任务地点;
+      }
+
+      descriptors.push(descriptor);
     });
   });
 
