@@ -22,7 +22,9 @@ yarn.lock
 /.knosys/sites/*/themes/*/source/images/*
 !/.knosys/sites/*/themes/*/source/images/local/
 /.knosys/sites/*/themes/*/source/javascripts/*
+!/.knosys/sites/*/themes/*/source/javascripts/local/
 /.knosys/sites/*/themes/*/source/stylesheets/*
+!/.knosys/sites/*/themes/*/source/stylesheets/local/
 !/.knosys/sites/*/themes/*/source/stylesheets/_helper.scss
 !/.knosys/sites/*/themes/*/source/stylesheets/global.scss
 /.knosys/sites/*/themes/*/_config.yml

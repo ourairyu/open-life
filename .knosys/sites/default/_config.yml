@@ -112,8 +112,8 @@ theme_config:
       start: 2023
   header:
     navs:
-      - text: 主站
-        url: https://ourai.ws/
+      - text: 关于
+        url: /about/
     navbar:
       placement: right
   footer:
@@ -149,14 +149,14 @@ ksio:
       _local/layouts/index:
         values:
           ksio_asset_css:
-            - local/pages/index
+            - stylesheets/local/pages/index
     page:
       - scope:
           path: ""
           type: posts
         values:
           ksio_asset_css:
-            - stylesheets/pages/post
+            - stylesheets/local/pages/post
           ksio_asset_js:
             - javascripts/ksio/vendors/jquery.timeago
             - javascripts/ksio/vendors/jquery.timeago.zh-CN
