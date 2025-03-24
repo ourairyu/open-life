@@ -6,8 +6,8 @@
 title: 欧雷的开放生活
 subtitle: 围观欧雷的生活，与欧雷一同成长
 description: 公开在做的事情及进展、户外活动数据与足迹、赞赏记录等。
-keywords: 欧雷,欧雷流,开放生活,open life,build in public,work in public
-author: Ourai L.
+keywords: 欧雷,欧雷流,人生实验,开放生活,open life,build in public,work in public
+author: 欧雷
 language: zh-CN
 timezone: Asia/Shanghai
 
@@ -112,6 +112,8 @@ theme_config:
       start: 2023
   header:
     navs:
+      - text: 日程
+        url: https://a66c4lvoi8.feishu.cn/wiki/XB6HwCe4FixCfekDlJwcH67wnpd?table=tblwYH0jaRmRZGvb&view=vew1jm6ApV
       - text: 关于
         url: /about/
     navbar:
