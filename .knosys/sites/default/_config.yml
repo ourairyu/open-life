@@ -112,8 +112,12 @@ theme_config:
       start: 2023
   header:
     navs:
-      - text: 日程
-        url: https://a66c4lvoi8.feishu.cn/wiki/XB6HwCe4FixCfekDlJwcH67wnpd?table=tblwYH0jaRmRZGvb&view=vew1jm6ApV
+      - text: 计划
+        children:
+          - text: OKR
+            url: /okrs/
+          - text: 任务
+            url: https://a66c4lvoi8.feishu.cn/wiki/XB6HwCe4FixCfekDlJwcH67wnpd?table=tblwYH0jaRmRZGvb&view=vewJmNsU1d
       - text: 关于
         url: /about/
     navbar:

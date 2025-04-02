@@ -1,8 +1,3 @@
----
-title: 2025 年人生 OKR 计划
-ksio_seo_title: 欧雷的 2025 年人生 OKR 计划
----
-
 财务健康化，人要走出去。
 
 ## 年度愿景
@@ -64,3 +59,7 @@ Q2 OKR：
 ### 第四季度
 
 待定。
+
+## 任务追踪
+
+请见 <https://a66c4lvoi8.feishu.cn/share/base/view/shrcnzBKM1ZFh1hWzUPVbNhUyob>。

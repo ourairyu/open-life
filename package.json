@@ -26,6 +26,7 @@
     "dotenv": "^16.4.5",
     "hexo-theme-lime": "0.0.0-alpha.3",
     "ics": "^3.7.2",
+    "js-yaml": "4.1.0",
     "ksio": "0.0.3"
   },
   "scripts": {

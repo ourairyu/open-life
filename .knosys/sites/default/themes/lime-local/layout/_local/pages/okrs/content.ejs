@@ -1,0 +1,6 @@
+<ul>
+  <% const okrData = site.data['knosys/okrs'] %>
+  <% okrData.sequence.forEach(year => { %>
+    <li><a href="/okrs/<%= year %>/"><%= okrData.items[year].title %></a></li>
+  <% }) %>
+</ul>

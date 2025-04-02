@@ -7,12 +7,31 @@ function resolveSiteSrcDir(site) {
   return ksUtils.getConfig(`site.${site}.source`) || `./.knosys/sites/${site}`;
 }
 
-function copySitePkgInfo(site) {
-  const rootPath = ksUtils.resolveRootPath();
-  const pkg = ksUtils.readData(`${rootPath}/package.json`);
-  const siteSrcPath = resolvePath(rootPath, resolveSiteSrcDir(site));
-
-  ksUtils.saveData(`${siteSrcPath}/package.json`, { name: `${pkg.name}-site-${site}`, ...pick(pkg, ['version', 'private', 'hexo', 'dependencies']) });
+function resolveSiteSrcPath(site) {
+  return resolvePath(ksUtils.resolveRootPath(), resolveSiteSrcDir(site));
 }
 
-module.exports = { ...ksUtils, resolveSiteSrcDir, copySitePkgInfo };
+function getSiteRoot() {
+  return resolveSiteSrcPath('default');
+}
+
+function getLocalDataRoot() {
+  return `${getSiteRoot()}/source/_data/knosys`;
+}
+
+function getLocalDocRoot() {
+  return `${getSiteRoot()}/source/knosys`;
+}
+
+function copySitePkgInfo(site) {
+  const pkg = ksUtils.readData(`${ksUtils.resolveRootPath()}/package.json`);
+
+  ksUtils.saveData(`${resolveSiteSrcPath(site)}/package.json`, { name: `${pkg.name}-site-${site}`, ...pick(pkg, ['version', 'private', 'hexo', 'dependencies']) });
+}
+
+module.exports = {
+  ...ksUtils,
+  resolveSiteSrcDir, resolveSiteSrcPath,
+  getLocalDataRoot, getLocalDocRoot,
+  copySitePkgInfo,
+};
