@@ -116,6 +116,8 @@ theme_config:
         children:
           - text: OKR
             url: /okrs/
+          - text: 项目
+            url: /projects/
           - text: 任务
             url: https://a66c4lvoi8.feishu.cn/wiki/XB6HwCe4FixCfekDlJwcH67wnpd?table=tblwYH0jaRmRZGvb&view=vewJmNsU1d
       - text: 关于

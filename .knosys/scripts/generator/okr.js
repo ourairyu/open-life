@@ -36,9 +36,6 @@ function generateMarkdown(id, item, _, cache) {
 module.exports = {
   createOkrGenerator: sourceRootPath => createGenerator(sourceRootPath, collectionName, {
     paramPath,
-    // getItemSlug: (_, item) => generateIdFromDate(item.date),
-    // getImagePath: (_, imageFileName, item) => `/knosys/${collectionName}/${generateIdFromDate(item.date)}/${imageFileName}`,
-    // getItemImageDir: (item, _, { imageDir }) => `${imageDir}/${generateIdFromDate(item.date)}`,
     transformItem: resolveItemData.bind(null, sourceRootPath),
     transformData: items => ({ items, sequence: sortByDate(Object.keys(items).map(key => items[key])).map(({ id }) => id) }),
     readEach: generateMarkdown,

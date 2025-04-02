@@ -13,6 +13,25 @@ const {
 
 const METADATA_IMAGE_KEYS = ['banner', 'avatar', 'thumbnail', 'cover', 'logo'];
 
+function getItemSourceDir(sourceRootPath, metadata) {
+  return `${sourceRootPath}/${metadata.source}`;
+}
+
+function cacheClassifyItems(cache, slug, { date, categories, tags }) {
+  [
+    { items: categories || [], cacheKey: 'categorized' },
+    { items: tags || [], cacheKey: 'tagged' },
+  ].forEach(({ items, cacheKey }) => {
+    items.forEach(item => {
+      if (!cache[cacheKey][item]) {
+        cache[cacheKey][item] = [];
+      }
+
+      cache[cacheKey][item].push({ id: slug, date });
+    });
+  });
+}
+
 function getCollectionRoot(collectionName) {
   return `${getLocalDocRoot()}/${collectionName}`;
 }
@@ -240,4 +259,4 @@ function createGenerator(sourceRootPath, collectionName, opts) {
   });
 }
 
-module.exports = { getCollectionRoot, createGenerator };
+module.exports = { getItemSourceDir, cacheClassifyItems, getCollectionRoot, createGenerator };

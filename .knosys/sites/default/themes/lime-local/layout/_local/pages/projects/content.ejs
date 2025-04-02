@@ -1,0 +1,11 @@
+<% const projectData = site.data['knosys/projects'] %>
+<p>共有 <%= projectData.sequence.length %> 个项目——</p>
+<% projectData.yearly.slice().reverse().forEach(yearly => { %>
+  <h2 title="共 <%= yearly.ids.length %> 个"><%= yearly.year %></h2>
+  <ul>
+    <% yearly.ids.slice().reverse().forEach(id => { %>
+      <% const note = projectData.items[id] %>
+      <li><a href="https://s.ourai.ws/projects/<%= id %>/" target="_blank" rel="external"><%= projectData.items[id].title %></a></li>
+    <% }) %>
+  </ul>
+<% }) %>

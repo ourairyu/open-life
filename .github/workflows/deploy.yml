@@ -13,7 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create temp dirs
-        run: mkdir site-src site-dist
+        run: mkdir data-src site-src site-dist
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          repository: ${{ secrets.KB_REPO }}
+          ref: master
+          path: data-src
       - uses: actions/checkout@v3
         with:
           ref: main
@@ -29,6 +35,7 @@ jobs:
           node-version: 14.15.3
       - run: |
           cd site-src
+          mv .env.example .env
           npm i
           npm run copy
           npm run build
