@@ -120,6 +120,12 @@ theme_config:
             url: /projects/
           - text: 任务
             url: https://a66c4lvoi8.feishu.cn/wiki/XB6HwCe4FixCfekDlJwcH67wnpd?table=tblwYH0jaRmRZGvb&view=vewJmNsU1d
+      - text: 专题
+        children:
+          - text: 数字游牧
+            url: /topics/digital-nomadism/
+          - text: 独立开发
+            url: https://indie.ourai.ws
       - text: 关于
         url: /about/
     navbar:
