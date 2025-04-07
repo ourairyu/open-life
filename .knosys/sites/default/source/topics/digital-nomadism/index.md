@@ -10,3 +10,4 @@ permalink: /topics/digital-nomadism/
 
 - [日报 20250402：我要开始游牧了？](https://s.ourai.ws/dailies/m8zzhs14/)
 - [日报 20250406：尝试旅居了，努力适应中！](https://s.ourai.ws/dailies/m95srphc/)
+- [日报 20250407：在清迈尝试高性价比消费](https://s.ourai.ws/dailies/m978bkfs/)
