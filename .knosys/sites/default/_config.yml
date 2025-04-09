@@ -177,6 +177,13 @@ ksio:
             - javascripts/ksio/initializers/time
             - javascripts/ksio/vendors/jquery.lazyload
             - javascripts/ksio/initializers/lazyload
+      - scope:
+          path: okrs
+          type: knosys
+        values:
+          banner:
+            url: images/local/banners/okr.jpg
+          image: images/local/banners/okr.jpg
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

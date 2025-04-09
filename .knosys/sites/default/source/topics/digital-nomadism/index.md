@@ -1,6 +1,9 @@
 ---
 title: 数字游牧实验
 ksio_seo_title: 欧雷的数字游牧实验
+banner:
+  url: images/local/banners/digital-nomadism.jpeg
+image: images/local/banners/digital-nomadism.jpeg
 permalink: /topics/digital-nomadism/
 ---
 

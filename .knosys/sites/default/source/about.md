@@ -1,8 +1,8 @@
 ---
 title: X in Public
-# banner:
-#   url: images/local/banners/ourai.jpg
-# image: images/local/banners/ourai.jpg
+banner:
+  url: images/local/banners/ourai.jpg
+image: images/local/banners/ourai.jpg
 ksio_seo_title: 介绍「欧雷的开放生活」人生实验
 permalink: /about/
 ---
