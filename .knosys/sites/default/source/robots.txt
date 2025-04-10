@@ -5,7 +5,5 @@ Disallow: /assets/
 Disallow: /categories/
 Disallow: /tags/
 Disallow: /archives/
-Disallow: /okrs/
-Disallow: /topics/
 
 Disallow: /404.html
