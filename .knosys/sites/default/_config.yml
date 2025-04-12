@@ -123,7 +123,7 @@ theme_config:
       - text: 专题
         children:
           - text: 数字游牧
-            url: /topics/digital-nomadism/
+            url: https://nomad.ourai.ws
           - text: 独立开发
             url: https://indie.ourai.ws
       - text: 关于

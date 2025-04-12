@@ -55,7 +55,7 @@ function generateMarkdown(collectionName, id, item, _, cache) {
 
   const itemDirPath = `${getCollectionRoot(collectionName)}/${id}`;
   const data = Object.keys(item)
-    .filter(key => ['title', 'date', 'tags', 'categories'].includes(key) && item[key])
+    .filter(key => ['title', 'description', 'date', 'tags', 'categories', 'image', 'banner'].includes(key) && item[key])
     .reduce((acc, key) => ({ ...acc, [key]: item[key] }), {});
 
   data.permalink = `/${collectionName}/${id}/`;
