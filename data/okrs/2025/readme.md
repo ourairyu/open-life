@@ -54,7 +54,19 @@ Q2 OKR：
 
 ### 第三季度
 
-目标只有一个——从个人本地知识库到个人网站整个流程解决方案的 MVP。
+Q3 OKR：
+
+- [ ] 搭建 AI 研发团队雏形
+  - [ ] 可根据文档生成符合「[反混沌](https://ntks.ourai.ws)」体系要求的代码（设计优先且[遵循「SSOT」](https://ourai.ws/posts/the-effect-of-knowledge-on-efficiency-part-2/)的场景）
+  - [ ] 可在 vibe coding 时生成符合「反混沌」体系要求的代码（开发优先与重构的场景）
+- [ ] [本地知识管理工具第一版](https://s.ourai.ws/projects/lfc70v9k/)
+  - [ ] 在浏览器中对符合 [QiiDB 数据规范](https://qiidb.github.io/meta/zh/guides/spec/)的文件进行操作
+  - [ ] 将本地文件内容发布到个人网站
+- [ ] 人脉管理系统简易版
+  - [ ] 添加自己独有及家庭共有的全部联系人
+  - [ ] 将已有联系人打标并建立关联
+
+除了上述事项，再尽力去做 Q2 未完成的。
 
 ### 第四季度
 
