@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - .knosys/sites/**
+      - data/**
   workflow_dispatch:
 
 jobs:
