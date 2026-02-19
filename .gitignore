@@ -35,3 +35,5 @@ yarn.lock
 /.knosys/sites/*/db.json
 /.knosys/sites/*/package.json
 /dist/
+
+.knosys/caches/

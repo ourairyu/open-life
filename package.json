@@ -20,8 +20,10 @@
     "hexo-server": "^3.0.0"
   },
   "devDependencies": {
+    "@knosys/ksdk-lark": "github:knosysio/ksdk-lark#5043a42",
     "@knosys/sdk": "^0.0.3",
     "@ntks/toolbox": "^0.0.6",
+    "csv-stringify": "6.4.6",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
     "hexo-theme-lime": "0.0.0-alpha.5",
@@ -34,6 +36,7 @@
     "build": "node .knosys/scripts gen",
     "clean": "rm -rf .asset-cache .cache .knosys/sites/*/.asset-cache .knosys/sites/*/.cache",
     "start": "node .knosys/scripts serve",
+    "sync": "node .knosys/scripts sync",
     "ics": "node .knosys/scripts cal",
     "predeploy": "npm run clean",
     "deploy": "node .knosys/scripts deploy"

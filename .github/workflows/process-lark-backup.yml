@@ -1,16 +1,12 @@
-name: Deploy site
-
+name: Process data from Lark backup
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .knosys/sites/**
-      - data/**
+  repository_dispatch:
+    types:
+      - l0y1-lark-backup-changed
   workflow_dispatch:
 
 jobs:
-  deploy-site:
+  process-lark-backup:
     runs-on: ubuntu-latest
     env:
       APP_ID: ${{ secrets.LARK_APP_ID }}
@@ -22,8 +18,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-          repository: ${{ secrets.LARK_BACKUP_REPO }}
-          ref: main
+          repository: ${{ github.event.client_payload.source }}
+          ref: ${{ github.event.client_payload.ref }}
           path: data-lark-backup
       - uses: actions/checkout@v3
         with:
@@ -49,10 +45,7 @@ jobs:
           cp .env.example .env.local
           sed -i -e "s/^KNOSYS_LARK_BACKUP_DATA_SOURCE=.*/KNOSYS_LARK_BACKUP_DATA_SOURCE=..\/data-lark-backup/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_ID=.*/KNOSYS_LARK_INDIVIDUAL_APP_ID=$APP_ID/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_SECRET=.*/KNOSYS_LARK_INDIVIDUAL_APP_SECRET=$APP_SECRET/" .env.local
           npm i
-          npm run sync lark task false $APP_ID $APP_SECRET $IGNORED_TABLE
-          npm run copy
-          npm run build
-          npm run deploy ../site-dist
+          npm run sync lark task true $APP_ID $APP_SECRET $IGNORED_TABLE
           npm run ics .knosys/caches/sync/open-tasks.yml
           rm -rf ../site-dist/schedule.ics
           cp schedule.ics ../site-dist/
@@ -63,7 +56,7 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          git commit -m "chore: deploy site"
+          git commit -m "chore: update `schedule.ics`"
       - uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GH_TOKEN }}
