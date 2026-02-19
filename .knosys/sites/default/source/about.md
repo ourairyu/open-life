@@ -32,7 +32,7 @@ permalink: /about/
   <iframe src="//player.bilibili.com/player.html?aid=487883270&high_quality=1&autoplay=0&bvid=BV1mN411U7UW&cid=1181323419&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 </div>
 
-经过不断思考与调整，于下半年开始踏上我的破局之路，并创建了一个付费专栏详细记录我逆风翻盘实现终极目标的全过程，详见《[欧雷的破局之路](https://ourai.ws/series/road-to-the-final-goal/)》。
+经过不断思考与调整，于下半年开始踏上我的破局之路，并创建了一个付费专栏详细记录我逆风翻盘实现终极目标的全过程，详见《[欧雷的破局之路](https://2bfree.ourai.ws)》。
 
 磨炼了一年后，我不仅获得了一些关键成长点，还更加地坚定决心——不再回到以往那种生活工作模式当中！！！
 
