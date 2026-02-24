@@ -73,7 +73,7 @@ function convertToCsv(tables) {
 }
 
 async function syncProjects(syncToDashboard, clientCreator) {
-  const collectionDataSourcePath = joinPath(getDataSourceDirPath(), 'data/bases');
+  const collectionDataSourcePath = joinPath(getDataSourceDirPath(), 'data/lark/bases');
   const taskTableName = '任务管理';
 
   const tables = [];

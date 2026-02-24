@@ -1,12 +1,12 @@
-name: Process data from Lark backup
+name: Process data from messenger signal
 on:
   repository_dispatch:
     types:
-      - l0y1-lark-backup-changed
+      - l0y1-messenger-signal-changed
   workflow_dispatch:
 
 jobs:
-  process-lark-backup:
+  process-messenger-signal:
     runs-on: ubuntu-latest
     env:
       APP_ID: ${{ secrets.LARK_APP_ID }}
@@ -14,13 +14,13 @@ jobs:
       IGNORED_TABLE: ${{ vars.LARK_IGNORED_TABLE }}
     steps:
       - name: Create temp dirs
-        run: mkdir data-lark-backup data-src site-src site-dist
+        run: mkdir data-messenger data-src site-src site-dist
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
           repository: ${{ github.event.client_payload.source }}
           ref: ${{ github.event.client_payload.ref }}
-          path: data-lark-backup
+          path: data-messenger
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
       - run: |
           cd site-src
           cp .env.example .env.local
-          sed -i -e "s/^KNOSYS_LARK_BACKUP_DATA_SOURCE=.*/KNOSYS_LARK_BACKUP_DATA_SOURCE=..\/data-lark-backup/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_ID=.*/KNOSYS_LARK_INDIVIDUAL_APP_ID=$APP_ID/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_SECRET=.*/KNOSYS_LARK_INDIVIDUAL_APP_SECRET=$APP_SECRET/" .env.local
+          sed -i -e "s/^KNOSYS_LARK_BACKUP_DATA_SOURCE=.*/KNOSYS_LARK_BACKUP_DATA_SOURCE=..\/data-messenger/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_ID=.*/KNOSYS_LARK_INDIVIDUAL_APP_ID=$APP_ID/" -e "s/^KNOSYS_LARK_INDIVIDUAL_APP_SECRET=.*/KNOSYS_LARK_INDIVIDUAL_APP_SECRET=$APP_SECRET/" .env.local
           npm i
           npm run sync lark task true $APP_ID $APP_SECRET $IGNORED_TABLE
           npm run ics .knosys/caches/sync/open-tasks.yml
