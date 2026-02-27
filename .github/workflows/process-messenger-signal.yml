@@ -2,7 +2,7 @@ name: Process data from messenger signal
 on:
   repository_dispatch:
     types:
-      - l0y1-messenger-signal-changed
+      - l0y1-messenger-messenger-signal-changed
   workflow_dispatch:
 
 jobs:
