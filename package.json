@@ -20,8 +20,8 @@
     "hexo-server": "^3.0.0"
   },
   "devDependencies": {
-    "@knosys/ksdk-lark": "github:knosysio/ksdk-lark#5043a42",
     "@knosys/sdk": "^0.0.3",
+    "@larknosys/sdk": "github:larknosys/sdk-dist#aaf3d4a",
     "@ntks/toolbox": "^0.0.6",
     "csv-stringify": "6.4.6",
     "dayjs": "^1.11.10",

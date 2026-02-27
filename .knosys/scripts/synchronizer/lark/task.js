@@ -1,7 +1,7 @@
 const { join: joinPath } = require('path');
 
 const { isString, isArray } = require('@ntks/toolbox');
-const { createLarkClient, logErr } = require('@knosys/ksdk-lark');
+const { createLarkClient, logErr } = require('@larknosys/sdk');
 const { stringify } = require('csv-stringify/sync');
 
 const { readDirDeeply, ensureDirExists, readData, saveData } = require('../../helper');
