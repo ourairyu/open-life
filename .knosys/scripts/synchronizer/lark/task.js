@@ -1,18 +1,31 @@
 const { join: joinPath } = require('path');
 
-const { isString, isArray } = require('@ntks/toolbox');
 const { createLarkClient, logErr } = require('@larknosys/sdk');
-const { stringify } = require('csv-stringify/sync');
 
-const { readDirDeeply, ensureDirExists, readData, saveData } = require('../../helper');
+const { readDirDeeply, ensureDirExists, readEntity, saveData } = require('../../helper');
 const { getDistRootDirPath, getDataSourceDirPath } = require('./helper');
 
-const FIELD_NAMES = ['任务名称', '任务描述', '任务期限', '任务地点', '任务状态', '开始时间', '结束时间'];
+const taskFieldDefs = [
+  { label: '任务名称', name: 'title' },
+  { label: '任务描述', name: 'description' },
+  { label: '任务期限', name: 'deadline' },
+  { label: '任务地点', name: 'location' },
+  { label: '任务状态', name: 'status' },
+  { label: '开始时间', name: 'startTime' },
+  { label: '结束时间', name: 'endTime' },
+];
+
+
+const statusMap = {
+  todo: '未开始',
+  wip: '进行中',
+  done: '已结束',
+  terminated: '已终止',
+};
+
 
 const dashboardAppToken = 'WmySb2sQ4anOwwsBTvkcTePOndh';
 const dashboardTableId = 'tblwYH0jaRmRZGvb';
-
-let excludedBitableTokens;
 
 async function insertDashboardTableRecords(client, params) {
   console.log('更新生活仪表盘任务汇总记录');
@@ -58,78 +71,55 @@ async function updateDashboardTable(client, records) {
   }
 }
 
-function convertToCsv(tables) {
-  const resolved = [];
-
-  tables.forEach(table => {
-    table.records.forEach(record => {
-      resolved.push(FIELD_NAMES.map(n => record[n]).concat(table.title));
-    });
-  });
-
-  resolved.unshift([].concat(FIELD_NAMES, '所属项目'));
-
-  return stringify(resolved);
-}
-
 async function syncProjects(syncToDashboard, clientCreator) {
-  const collectionDataSourcePath = joinPath(getDataSourceDirPath(), 'data/lark/bases');
-  const taskTableName = '任务管理';
+  const localDataDirPath = joinPath(getDataSourceDirPath(), 'data');
+  const collectionDataSourcePath = joinPath(localDataDirPath, 'projects');
 
   const tables = [];
   const dashboardTableRecords = [];
 
   readDirDeeply(collectionDataSourcePath, ['appToken'], {}, appToken => {
-    const appDataSourcePath = joinPath(collectionDataSourcePath, appToken);
-    const appTables = readData(joinPath(appDataSourcePath, 'tables.yml')) || [];
+    const projectDirPath = joinPath(collectionDataSourcePath, appToken);
+    const project = readEntity(projectDirPath);
 
-    if (!appTables.some(({ name }) => name === taskTableName)) {
+    if (!project.belongsTo || !project.tasks) {
       return;
     }
 
-    const app = readData(joinPath(appDataSourcePath, 'basic.yml'));
+    const thing = readEntity(joinPath(localDataDirPath, 'things', project.belongsTo));
 
-    for (const table of appTables) {
-      if (table.name !== taskTableName) {
-        continue;
+    const records = [];
+
+    project.tasks.forEach(task => {
+      const normalRecord = {};
+      const dashboardTableRecord = {};
+
+      taskFieldDefs.forEach(f => {
+        let v = task[f.name];
+
+        if (f.name === 'status' && v) {
+          v = statusMap[v];
+        }
+
+        normalRecord[f.label] = v || '';
+        dashboardTableRecord[f.label] = v;
+      });
+
+      records.push(normalRecord);
+
+      if (!syncToDashboard) {
+        return;
       }
 
-      const tableId = table.table_id;
-      const tableRecords = readData(joinPath(appDataSourcePath, `table_${tableId}_records.yml`)) || [];
+      if (task.title && task.status) {
+        dashboardTableRecord.所属项目 = thing.title;
+        dashboardTableRecord.所属阶段 = project.title;
 
-      if (!excludedBitableTokens.includes(appToken)) {
-        const records = [];
-
-        tableRecords.forEach(({ fields }) => {
-          const normalRecord = {};
-          const dashboardTableRecord = {};
-
-          FIELD_NAMES.forEach(f => {
-            const v = fields[f];
-
-            normalRecord[f] = v || '';
-            dashboardTableRecord[f] = v;
-          });
-
-          records.push(normalRecord);
-
-          if (!syncToDashboard) {
-            return;
-          }
-
-          if (fields.任务名称 && fields.任务状态) {
-            const stage = fields.所属阶段 || fields.所属迭代;
-
-            dashboardTableRecord.所属项目 = app.title;
-            dashboardTableRecord.所属阶段 = isArray(stage) ? stage[0].text : stage;
-
-            dashboardTableRecords.push({ fields: dashboardTableRecord });
-          }
-        });
-
-        tables.push({ id: tableId, title: app.title, app: appToken, records });
+        dashboardTableRecords.push({ fields: dashboardTableRecord });
       }
-    }
+    });
+
+    tables.push({ records });
   });
 
   if (dashboardTableRecords.length > 0) {
@@ -142,7 +132,6 @@ async function syncProjects(syncToDashboard, clientCreator) {
     ensureDirExists(distDirPath, true);
 
     saveData(`${distDirPath}/open-tasks.yml`, tables);
-    saveData(`${distDirPath}/open-tasks.csv`, convertToCsv(tables));
   }
 }
 
@@ -150,12 +139,9 @@ async function syncFromLark(
   syncToDashboard = false,
   appId = process.env.KNOSYS_LARK_INDIVIDUAL_APP_ID,
   appSecret = process.env.KNOSYS_LARK_INDIVIDUAL_APP_SECRET,
-  excluded,
 ) {
   try {
     const clientCreator = createLarkClient.bind(null, appId, appSecret);
-
-    excludedBitableTokens = [dashboardAppToken].concat(isString(excluded) && excluded ? excluded.split(',') : []);
 
     await syncProjects(['true', true].includes(syncToDashboard), clientCreator);
   } catch (err) {
