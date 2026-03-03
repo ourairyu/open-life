@@ -23,18 +23,84 @@ const statusMap = {
   terminated: '已终止',
 };
 
-
 const dashboardAppToken = 'WmySb2sQ4anOwwsBTvkcTePOndh';
 const dashboardTableId = 'tblwYH0jaRmRZGvb';
 
-async function insertDashboardTableRecords(client, params) {
-  console.log('更新生活仪表盘任务汇总记录');
+const maxDeleteCount = 500;
+const maxInsertCount = 1000;
 
-  const res = await client.bitable.appTableRecord.batchCreate(params);
+async function deleteDashboardTableRecords(client, params) {
+  const { records } = params.data;
+  const total = records.length;
 
-  if (res.code !== 0) {
-    logErr(res);
+  console.log(`删除生活仪表盘任务汇总记录，共 ${total} 条`);
+
+  let times = Math.ceil(total / maxDeleteCount);
+  let startAt = 0;
+  let endAt = maxDeleteCount;
+
+  let res;
+
+  while (times > 0) {
+    console.log(`正在删除第 ${startAt + 1} 到 ${Math.min(endAt, total)} 条记录`);
+    res = await client.bitable.appTableRecord.batchDelete({
+      ...params,
+      data: {
+        ...params.data,
+        records: records.slice(startAt, endAt),
+      },
+    });
+
+    if (res.code !== 0) {
+      logErr(res);
+      break;
+    }
+
+    console.log(`第 ${startAt + 1} 到 ${Math.min(endAt, total)} 条记录删除成功`);
+
+    times--;
+    startAt += maxDeleteCount;
+    endAt += maxDeleteCount;
   }
+
+  return res;
+}
+
+async function insertDashboardTableRecords(client, params) {
+  const { records } = params.data;
+  const total = records.length;
+
+  console.log(`更新生活仪表盘任务汇总记录，共 ${total} 条`);
+
+  let times = Math.ceil(total / maxInsertCount);
+  let startAt = 0;
+  let endAt = maxInsertCount;
+
+  let res;
+
+  while (times > 0) {
+    console.log(`正在插入第 ${startAt + 1} 到 ${Math.min(endAt, total)} 条记录`);
+    res = await client.bitable.appTableRecord.batchCreate({
+      ...params,
+      data: {
+        ...params.data,
+        records: records.slice(startAt, endAt),
+      },
+    });
+
+    if (res.code !== 0) {
+      logErr(res);
+      break;
+    }
+
+    console.log(`第 ${startAt + 1} 到 ${Math.min(endAt, total)} 条记录插入成功`);
+
+    times--;
+    startAt += maxInsertCount;
+    endAt += maxInsertCount;
+  }
+
+  return res;
 }
 
 async function updateDashboardTable(client, records) {
@@ -46,17 +112,41 @@ async function updateDashboardTable(client, records) {
 
   const pathParams = { app_token: dashboardAppToken, table_id: dashboardTableId };
 
-  let res = await client.bitable.appTableRecord.list({ path: pathParams, params: { page_size: 500 } });
+  const fetchRecords = async (page_token) => {
+    const params = { page_size: 500 };
+
+    if (page_token) {
+      params.page_token = page_token;
+    }
+
+    return client.bitable.appTableRecord.list({ path: pathParams, params });
+  };
+
+  let res = await fetchRecords();
 
   if (res.code === 0) {
-    const oldRecordIds = (res.data.items || []).map(record => record.record_id);
+    const oldRecordIds = [];
+
+    if (res.data.total > 0) {
+      oldRecordIds.push(...(res.data.items || []).map(record => record.record_id));
+
+      while (res.data.has_more) {
+        res = await fetchRecords(res.data.page_token);
+
+        if (res.code === 0) {
+          oldRecordIds.push(...(res.data.items || []).map(record => record.record_id));
+        } else {
+          break;
+        }
+      }
+    }
+
     const params = { path: pathParams, data: { records } };
 
     if (oldRecordIds.length > 0) {
       console.log('生活仪表盘任务汇总记录 ID 为', oldRecordIds);
-      console.log('删除生活仪表盘任务汇总记录');
 
-      res = await client.bitable.appTableRecord.batchDelete({ path: pathParams, data: { records: oldRecordIds } });
+      res = await deleteDashboardTableRecords(client, { path: pathParams, data: { records: oldRecordIds } });
 
       if (res.code === 0) {
         await insertDashboardTableRecords(client, params);
