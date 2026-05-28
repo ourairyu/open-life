@@ -163,24 +163,40 @@ async function updateDashboardTable(client, records) {
 
 async function syncProjects(syncToDashboard, clientCreator) {
   const localDataDirPath = joinPath(getDataSourceDirPath(), 'data');
-  const collectionDataSourcePath = joinPath(localDataDirPath, 'projects');
+  const taskRootDirPath = joinPath(localDataDirPath, 'tasks');
+  const stageMap = {};
+
+  readDirDeeply(taskRootDirPath, ['taskId'], {}, taskId => {
+    const task = readEntity(joinPath(taskRootDirPath, taskId));
+
+    if (!task.belongsTo) {
+      return;
+    }
+
+    if (!stageMap[task.belongsTo]) {
+      stageMap[task.belongsTo] = [];
+    }
+
+    stageMap[task.belongsTo].push(task);
+  });
+
+  const collectionDataSourcePath = joinPath(localDataDirPath, 'stages');
 
   const tables = [];
   const dashboardTableRecords = [];
 
   readDirDeeply(collectionDataSourcePath, ['appToken'], {}, appToken => {
-    const projectDirPath = joinPath(collectionDataSourcePath, appToken);
-    const project = readEntity(projectDirPath);
+    const stage = readEntity(joinPath(collectionDataSourcePath, appToken));
 
-    if (!project.belongsTo || !project.tasks) {
+    if (!stage.belongsTo || !stageMap[appToken]) {
       return;
     }
 
-    const thing = readEntity(joinPath(localDataDirPath, 'things', project.belongsTo));
+    const project = readEntity(joinPath(localDataDirPath, 'projects', stage.belongsTo));
 
     const records = [];
 
-    project.tasks.forEach(task => {
+    stageMap[appToken].forEach(task => {
       const normalRecord = {};
       const dashboardTableRecord = {};
 
@@ -202,8 +218,8 @@ async function syncProjects(syncToDashboard, clientCreator) {
       }
 
       if (task.title && task.status) {
-        dashboardTableRecord.所属项目 = thing.title;
-        dashboardTableRecord.所属阶段 = project.title;
+        dashboardTableRecord.所属项目 = project.title;
+        dashboardTableRecord.所属阶段 = stage.title;
 
         dashboardTableRecords.push({ fields: dashboardTableRecord });
       }
